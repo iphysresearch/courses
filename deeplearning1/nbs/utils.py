@@ -1,6 +1,9 @@
 from __future__ import division,print_function
 import math, os, json, sys, re
-import cPickle as pickle
+# On python3.x cPickle has changed from cPickle to _pickle
+# import _pickle as pickle
+# import cPickle as pickle   
+import pickle
 from glob import glob
 import numpy as np
 from matplotlib import pyplot as plt
@@ -10,6 +13,7 @@ import itertools
 from itertools import chain
 
 import pandas as pd
+# pip3 install Pillow
 import PIL
 from PIL import Image
 from numpy.random import random, permutation, randn, normal, uniform, choice
@@ -19,17 +23,33 @@ from scipy import misc, ndimage
 from scipy.ndimage.interpolation import zoom
 from scipy.ndimage import imread
 from sklearn.metrics import confusion_matrix
+# pip3 install -U bcolz
 import bcolz
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.manifold import TSNE
 
 from IPython.lib.display import FileLink
 
+# http://www.deeplearning.net/software/theano/install.html
+# <sudo> pip3 install <--user> Theano[test, doc]
 import theano
 from theano import shared, tensor as T
 from theano.tensor.nnet import conv2d, nnet
 from theano.tensor.signal import pool
 
+# Fixed : Keras 2.x seems to have some breaking changes
+# Solution is to install Keras 1.2.2 which is last version before 2.x as below
+# pip3 install keras==1.2.2
+import os
+with open(os.path.expanduser('~')+'/.keras/keras.json','w') as f:
+    new_settings = """{\r\n
+    "epsilon": 1e-07,\r\n
+    "image_data_format": "channels_last",\n
+    "backend": "theano",\r\n
+    "image_dim_ordering": "th",\r\n
+    "floatx": "float32"\r\n
+    }"""
+    f.write(new_settings)
 import keras
 from keras import backend as K
 from keras.utils.data_utils import get_file
