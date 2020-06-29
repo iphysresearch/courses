@@ -229,14 +229,12 @@ def mk_square(img):
 def vgg_ft(out_dim):
     vgg = Vgg16()
     vgg.ft(out_dim)
-    model = vgg.model
-    return model
+    return vgg.model
 
 def vgg_ft_bn(out_dim):
     vgg = Vgg16BN()
     vgg.ft(out_dim)
-    model = vgg.model
-    return model
+    return vgg.model
 
 
 def get_classes(path):
@@ -259,9 +257,9 @@ class MixIterator(object):
         self.iters = iters
         self.multi = type(iters) is list
         if self.multi:
-            self.N = sum([it[0].N for it in self.iters])
+            self.N = sum(it[0].N for it in self.iters)
         else:
-            self.N = sum([it.N for it in self.iters])
+            self.N = sum(it.N for it in self.iters)
 
     def reset(self):
         for it in self.iters: it.reset()
@@ -272,12 +270,10 @@ class MixIterator(object):
     def next(self, *args, **kwargs):
         if self.multi:
             nexts = [[next(it) for it in o] for o in self.iters]
-            n0 = np.concatenate([n[0] for n in nexts])
-            n1 = np.concatenate([n[1] for n in nexts])
-            return (n0, n1)
         else:
             nexts = [next(it) for it in self.iters]
-            n0 = np.concatenate([n[0] for n in nexts])
-            n1 = np.concatenate([n[1] for n in nexts])
-            return (n0, n1)
+
+        n0 = np.concatenate([n[0] for n in nexts])
+        n1 = np.concatenate([n[1] for n in nexts])
+        return (n0, n1)
 
